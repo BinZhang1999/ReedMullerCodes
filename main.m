@@ -20,7 +20,9 @@ switch decoder_select
     case 'CPA'
         % Load the projection_idx and projection_extrinsic_idx mannually
         % first.
-        % Them can be generaeted using ToolsForProjectionDecoding
+        % Them can be generaeted using ToolsForProjectionDecoding.
+        % I generate some xxx_idx and you can load from 
+        % the folder ToolsForProjectionDecoding directly.
         decoder = DECODER_RM_AWGN_CPA; num_iter = 3;sf=2;
         decoder_hadamard = DECODER_RM_AWGN_HADAMARD;
         decoder_hadamard = decoder_hadamard.Init(m-r+1);
