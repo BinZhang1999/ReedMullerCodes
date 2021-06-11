@@ -31,21 +31,18 @@ methods
             t_start = tic;
             while (num_error_frame < num_least_error_frame)
                 u = randn(1, K) > 0.5;
-%                 u = zeros(1,K);
                 v = mod(u * G, 2);
                 
                 tx = 2 * (0.5-v);
                 noise = randn(1, N);
                 rx = sigma .* noise + tx;
-                % rx = tx;
                 
                 [u_hat, v_hat] = DECODER.Decode(rx, sigma);
                 
                 num_error_frame = num_error_frame+sum(any([v_hat~=v]'));
                 num_error_bits = num_error_bits+sum(u_hat~=u,'all');
                 
-               num_frame = num_frame + 1;
-
+                num_frame = num_frame + 1;
             end
             
             obj.wer(i) = num_error_frame / num_frame;
