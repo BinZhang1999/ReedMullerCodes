@@ -69,8 +69,8 @@ methods
            k_i = nchoosek(obj.m,r_i);
            projection_idx = obj.check_sum_idx{1,r_i};
            llr_x = llr(projection_idx);
-           llr_project = 2*atanh(prod(tanh(llr_x/2),1));
-           llr_info = sum(llr_project,2);
+           llr_p = 2*atanh(prod(tanh(llr_x/2),1));
+           llr_info = sum(llr_p,2);
            u_hat(cnt_k+1:cnt_k+k_i) = llr_info<0;
 
            llr = (1-2*...

@@ -17,6 +17,8 @@ function projection_idx = GenerateProjectionIdx(subspace_list, m, k)
 %                   num_coset is the number of the cosets of one subspace. 
 %                   It is also the length of the projected vector.
 %                   num_subspace is the number of the subspaces.
+%                   !!! the zero is represented by 1, so k is represented
+%                   by k+1 !!!
 % Eg:
 % % Generate the projection idx from subspace_list_m7k2
 % projection_idx_m7k2 = GenerateProjectionIdx(subspace_list_m7k2,7,2);
@@ -48,4 +50,5 @@ for i_subspace = 1:num_subspace
       projection_idx(:,p_coset,i_subspace) = coset;
    end
 end
+projection_idx = projection_idx+1;
 end
