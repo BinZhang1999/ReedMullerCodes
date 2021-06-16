@@ -1,5 +1,5 @@
 %% Code parameters
-r=3;m=7;
+r=3;m=5;
 
 %% Generate Code
 code = CODE_RM;
@@ -31,7 +31,7 @@ switch decoder_select
         
     case 'CXA'
         decoder = DECODER_RM_AWGN_CXA;
-        decoder = decoder.Init(r,m,puncture_idx);
+        decoder = 
         
         
     otherwise
