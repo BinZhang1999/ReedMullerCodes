@@ -30,8 +30,8 @@ switch decoder_select
             projection_extrinsic_idx,num_iter, decoder_hadamard,sf);
         
     case 'CXA'
-        decoder = DECODER_RM_AWGN_CXA;
-        decoder = decoder.Init(r,m,puncture_idx);
+        decoder = DECODER_RM_AWGN_CXA; num_iter = 3;alpha = 3;
+        decoder = decoder.Init(r,m,puncture_idx, num_iter,alpha);
         
         
     otherwise
@@ -50,6 +50,6 @@ end
 num_least_error_frame = 100;
 
 % over awgn channel
-EbNo = 1.5:0.5:5.5;
+EbNo = 2:0.5:5.5;
 sim = SIMULATION_AWGN;
 sim = sim.Simulation(code, decoder, EbNo, num_least_error_frame);

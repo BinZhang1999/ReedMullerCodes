@@ -18,14 +18,14 @@ properties
    num_coset;
    
    num_iter;
-   
+   alpha;
    % parameters for map decoder
    code_dual;
    N_p;
 end
 
 methods
-    function obj = Init(obj, r,m,puncture_idx, num_iter)
+    function obj = Init(obj, r,m,puncture_idx, num_iter, alpha)
        obj.r = r;
        obj.m = m;
         obj.K=0;
@@ -36,7 +36,7 @@ methods
        obj.puncture_idx = puncture_idx;
        [obj.num_cn, obj.num_coset] = size(puncture_idx);
        obj.num_iter = num_iter;
-       
+       obj.alpha = alpha;
        % parameters for map decoder
        obj.N_p = 2^(r+2);
        matrix_hadamard = hadamard(obj.N_p);
@@ -80,26 +80,41 @@ methods
         z = (omega_0.*rho + omega_1./rho) ./ ...
             (omega_0 + omega_1);
         llr_out = z;
-%         app_0 = (z+1)/2;
-%         app_1 = (1-z)/2;
+
+        app_0 = (z+1)/2;
+        app_1 = (1-z)/2;
+        llr_out = log2(app_0./app_1);
     end
     
-    function [u_hat, v_hat] = Decode(obj, rx, sigma)
+    function [u_hat, v_hat] = Decode(obj, rx, sigma, v)
         v_hat = zeros(1,obj.N);
         u_hat = zeros(1,obj.K);
-        rx_p = rx(obj.puncture_idx);
-        llr_p = obj.MAP_SISO(rx_p, sigma);
-        G_c2v = zeros(obj.num_cn, obj.N);
-        G_c2v = G_c2v';
-        x = (0:obj.num_cn-1)*obj.num_coset;
-        x = x';
-        idx_x = x+obj.puncture_idx;
-        G_c2v(idx_x) = llr_p;
-        G_c2v = G_c2v';
-        w = 1/obj.num_cn;
-        rx = rx+w*sum(G_c2v,1);
-        1;
-        
+        % init lambda_v2c
+        lambda_v2c = rx(obj.puncture_idx);
+        % start iteration
+        w = obj.alpha*1/obj.num_cn;
+        for i = 1:obj.num_iter
+            % perform map decoding for RM(r,r+2)
+            lambda_c2v = obj.MAP_SISO(lambda_v2c, sigma);
+            lambda_cvs = zeros(1, obj.N);
+            for j = 1:obj.num_cn
+                lambda_cvs(obj.puncture_idx(j,:)) =...
+                    lambda_cvs(obj.puncture_idx(j,:))+ w*lambda_c2v(j,:);
+            end
+            %
+            lambda_v2c = zeros(obj.num_cn, obj.N_p);
+            for j = 1:obj.num_cn
+                lambda_v2c(j,:) = ...
+                    lambda_cvs(obj.puncture_idx(j,:))-w*lambda_c2v(j,:)+...
+                    rx(obj.puncture_idx(j,:)); 
+            end    
+            
+        end
+        for j = 1:obj.num_cn
+             v_hat(obj.puncture_idx(j,:)) =...
+                 v_hat(obj.puncture_idx(j,:))+ w*lambda_c2v(j,:);
+        end
+        v_hat(:) = v_hat(:)<0;
     end
 end
     
