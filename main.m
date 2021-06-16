@@ -1,12 +1,12 @@
 %% Code parameters
-r=3;m=7;
+r=3;m=5;
 
 %% Generate Code
 code = CODE_RM;
 code = code.Init(r,m);
 
 %% Generate Decoder
-decoder_select = 'CPA';
+decoder_select = 'eHammingMAP';
 switch decoder_select
     case 'Reed'
         decoder = DECODER_RM_AWGN_REED;decoder = decoder.Init(r,m);
@@ -28,6 +28,9 @@ switch decoder_select
         decoder_hadamard = decoder_hadamard.Init(m-r+1);
         decoder = decoder.Init(r,m,projection_idx,...
             projection_extrinsic_idx,num_iter, decoder_hadamard,sf);
+        
+    case 'CXA'
+        
         
     otherwise
         disp(['Error: No matched decoder!']);

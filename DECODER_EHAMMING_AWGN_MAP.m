@@ -32,7 +32,6 @@ classdef DECODER_EHAMMING_AWGN_MAP
         sigma_2 = sigma^2;
         rho = (1 - (exp(-(rx+1).^2/sigma_2 ) ./ exp(-(rx-1).^2/sigma_2 )) ) ./ ...
             (1 + (exp(-(rx+1).^2/sigma_2 ) ./ exp(-(rx-1).^2/sigma_2 )) );
-        % sigma^2=2
         
         tau = log(abs(rho));
         
@@ -40,8 +39,8 @@ classdef DECODER_EHAMMING_AWGN_MAP
         
         s = tau * (1-2*obj.code_dual(:,1:obj.N));
         
-        t_0 = (s(1)+s) / 2;
-        t_1 = (s(1)-s) / 2;
+        t_0 = (s(:,1)+s) / 2;
+        t_1 = (s(:,1)-s) / 2;
         
         sigma_0 = mod(beta_0*(obj.code_dual(:,1:obj.N)==0), 2);
         % sigma_1 = mod(obj.N - sigma_0, 2);
@@ -55,7 +54,7 @@ classdef DECODER_EHAMMING_AWGN_MAP
         % use rj represent the vector r 
         % cause we already used r to represent the order of RM code
         
-        q = sum(h_0+h_1);
+        q = sum(h_0+h_1,2);
         
         omega_0 = (q-rj) / 2;
         omega_1 = (q+rj) / 2;

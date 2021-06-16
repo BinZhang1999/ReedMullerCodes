@@ -1,0 +1,16 @@
+classdef DECODER_RM_AWGN_CXA
+%% Generate Collapsed Punctured Aggregation decoder
+% The algorithm is described in this paper: 
+% Decoding Reed-Muller codes using redundant constrain
+% by Mengke Lian ,Henry D. Pfister 
+% published in ISIT 2020
+%%
+
+properties
+   r;m; % Decoder for RM(r,m) codes
+   K;N; % (N,K) code
+   
+   puncture_idx; % punct
+end
+    
+end
