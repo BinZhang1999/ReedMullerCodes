@@ -49,11 +49,11 @@ methods
             end
             
             projection_idx = GenerateProjectionIdx(subspace_list, obj.m, r_i);
-            obj.check_sum_idx{1,r_i} = projection_idx+1;
+            obj.check_sum_idx{1,r_i} = projection_idx;
             
             for k_i = 1:k_r
                 cnt_k = cnt_k+1;
-                obj.G(cnt_k,projection_idx(end,:,k_i)+1) = 1;
+                obj.G(cnt_k,projection_idx(end,:,k_i)) = 1;
             end
         end
         obj.G(end,:) = ones(1,2^m);

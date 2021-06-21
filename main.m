@@ -6,7 +6,7 @@ code = CODE_RM;
 code = code.Init(r,m);
 
 %% Generate Decoder
-decoder_select = 'CXA';
+decoder_select = 'Reed';
 switch decoder_select
     case 'Reed'
         decoder = DECODER_RM_AWGN_REED;decoder = decoder.Init(r,m);
