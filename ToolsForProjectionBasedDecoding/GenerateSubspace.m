@@ -41,6 +41,7 @@ p_subspace = 0; % the pointer
 
 % add the new point to the last subspace
 for i_subspace_last = 1:num_subspace_last
+% for i_subspace_last = num_subspace_last:-1:1
     subspace_last = subspace_list_last(i_subspace_last,:);
     points_uncontained = setdiff(all_points, subspace_last);
     subspace_last_bin = MyDec2Bin(subspace_last', m);
