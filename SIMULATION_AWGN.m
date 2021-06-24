@@ -36,11 +36,11 @@ methods
                 tx = 2 * (0.5-v);
                 noise = randn(1, N);
                 rx = sigma .* noise + tx;
-                
+                rx = tx;
                 [u_hat, v_hat] = DECODER.Decode(rx, sigma);
                 
-                num_error_frame = num_error_frame+sum(any([v_hat~=v]'));
-                num_error_bits = num_error_bits+sum(u_hat~=u,'all');
+                num_error_frame = num_error_frame+sum(any(v_hat~=v,2));
+                % num_error_bits = num_error_bits+sum(u_hat~=u,'all');
                 
                 num_frame = num_frame + 1;
             end
