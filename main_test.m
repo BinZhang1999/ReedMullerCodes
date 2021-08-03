@@ -23,7 +23,7 @@ switch decoder_select
         % Them can be generaeted using ToolsForProjectionDecoding.
         % I generate some xxx_idx and you can load from 
         % the folder ToolsForProjectionDecoding directly.
-        decoder = DECODER_RM_AWGN_CPA; num_iter = 3;sf=2;
+        decoder = DECODER_RM_AWGN_CPA_test; num_iter = 3;sf=2;
         decoder_hadamard = DECODER_RM_AWGN_HADAMARD;
         decoder_hadamard = decoder_hadamard.Init(m-r+1);
         decoder = decoder.Init(r,m,projection_idx,...
@@ -51,5 +51,5 @@ num_least_error_frame = 50;
 
 % over awgn channel
 EbNo = 1.5:0.5:3.0;
-sim = SIMULATION_AWGN;
+sim = SIMULATION_AWGN_test;
 sim = sim.Simulation(code, decoder, EbNo, num_least_error_frame);

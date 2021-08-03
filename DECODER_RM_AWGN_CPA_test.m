@@ -1,4 +1,4 @@
-classdef DECODER_RM_AWGN_CPA
+classdef DECODER_RM_AWGN_CPA_test
 %% Generaete Collapsed Projection-Aggregation decoder
 % The algorithm is described in this paper: 
 % Decoding Reed-Muller codes using redundant constrain
