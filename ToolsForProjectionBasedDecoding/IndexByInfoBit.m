@@ -6,13 +6,15 @@ function idx_set = IndexByInfoBit(projection_idx, G, r, m)
 %   G: The generator matrix of RM code. 
 %   r,m: RM(r,m) code
 % Ouput:
-%   idx_set: [K_rth, num_subspace_this_infobit] = size(idx_set)
+%   idx_set: [K_rth, max_num_subspace_infobit+1] = size(idx_set)
+%            the first number is the number of the num_subspace of this    
+%            info bit
 %%
 
 G_rth = G(sum(G,2)==2^(m-r),:);
 [num_overlap, num_coset, num_subspace]= size(projection_idx);
 K_rth = nchoosek(m,r);
-idx_set = zeros(K_rth, 2^(r*(m-r)));
+idx_set = zeros(K_rth, 2^(r*(m-r))+1);
 cnt = zeros(K_rth,1);
 
 for i = 1:num_subspace
@@ -29,5 +31,15 @@ for i = 1:num_subspace
       end
    end
 end
+
+for k = 1:K_rth
+    idx_nonzero = (idx_set(k,:)~=0);
+    num_subspace_this_infobit = sum(idx_nonzero);
+    idx_set(k,2:(num_subspace_this_infobit+1)) = sort(idx_set(k,idx_nonzero),'ascend');
+    idx_set(k,1) = num_subspace_this_infobit;
+end
+
+max_num_subspace_infobit = max(idx_set(:,1));
+idx_set = idx_set(:,1:(max_num_subspace_infobit+1));
 
 end
