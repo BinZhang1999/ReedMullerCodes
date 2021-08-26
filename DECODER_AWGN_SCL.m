@@ -34,7 +34,7 @@ methods
      
     end
     
-    function [u_hat, v_hat] = Decode(obj, rx, sigma)
+    function [u_hat, v_hat] = decode(obj, rx, sigma)
         u_hat = zeros(1,obj.K)-1;
         v_hat = zeros(1,obj.N)-1;
         llr = 2*rx/(sigma^2);
