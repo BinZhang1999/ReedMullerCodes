@@ -1,4 +1,4 @@
-classdef DECODER_RM_AWGN_CPA
+classdef DECODER_RM_AWGN_CPA_test
 %% Generaete Collapsed Projection-Aggregation decoder
 % The algorithm is described in this paper: 
 % Decoding Reed-Muller codes using redundant constrain
@@ -21,10 +21,11 @@ classdef DECODER_RM_AWGN_CPA
         
         decoder_hadamard;
         sf; % a scaling factor
+        decoder_scl;
     end
     methods
         function obj = Init(obj, r, m, projection_idx, ...
-                projection_extrinsic_idx, num_iter, decoder_hadamard, sf)
+                projection_extrinsic_idx, num_iter, decoder_hadamard, sf, decoder_scl)
             obj.r = r;
             obj.m = m;
             obj.K=0;
@@ -42,6 +43,8 @@ classdef DECODER_RM_AWGN_CPA
             
             obj.decoder_hadamard = decoder_hadamard;
             obj.sf = sf;
+            
+            obj.decoder_scl = decoder_scl;
         end
         
         
@@ -51,10 +54,6 @@ classdef DECODER_RM_AWGN_CPA
             u_hat = zeros(1,obj.K);
             v_hat = zeros(1,obj.N);
             
-            
-            
-            % start iteration decoding
-            for iter = 1:obj.num_iter
                 llr_x = llr(obj.projection_idx);
                 llr_p = zeros(obj.num_coset, obj.num_subspace); 
                 % Init projected llr
@@ -64,31 +63,27 @@ classdef DECODER_RM_AWGN_CPA
                 llr_p(:) = 2*atanh(prod(tanh(llr_x/2),1));
                 llr_p = llr_p';
                 
-                [~,v_sub_hat] = obj.decoder_hadamard.Decode(llr_p); 
-                change_vote = zeros(obj.num_subspace, obj.N);
-                % The below codes is ugly but works.
-                % Many thanks for you, if you can provide better solution 
-                % in the issue. 
-                for i = 1:obj.num_subspace
-                for j = 1:obj.num_overlap
-                    change_vote(i, obj.projection_idx(j,:,i))=v_sub_hat(i,:);
-                end
+                [u_sub_hat,v_sub_hat] = obj.decoder_hadamard.Decode(llr_p); 
+                
+                idx = find(sum(u_sub_hat(:,1:6),2)==0);
+                if isempty(idx)
+                    return; % decoding error
                 end
                 
-                llr_z = llr(obj.projection_extrinsic_idx);
-                llr_s(:) = 2*atanh(prod(tanh(llr_z/2),1));
-                llr_s = llr_s';
+                me = sum( llr_p(idx,:).*(1-2*v_sub_hat(idx,:)), 2);
+                [val, idx_max] = max(me);
+                idx = idx(idx_max);
                 
-                alpha = obj.sf*1/obj.num_subspace; % scaling factor
-                llr_nxt = sum(alpha.*(1-2*change_vote).*llr_s, 1);
+                llr(obj.projection_idx(1,:,idx))=(1-2*u_sub_hat(idx,end)).*...
+                    llr(obj.projection_idx(1,:,idx));
+                llr_p_sub = llr(obj.projection_idx(1,:,idx))+...
+                    llr(obj.projection_idx(2,:,idx));
                 
-                llr_delta = abs(llr_nxt-llr);
-                if ~any(llr_delta > 0.05)
-                    break;
-                end
-                llr = llr_nxt;
-            end
-            v_hat(:) = llr<0;
+                [~, v_sub] = obj.decoder_scl.Decode(llr_p_sub, sqrt(2));
+                
+                v_hat(obj.projection_idx(1,:,idx)) = mod((v_sub+v_sub_hat(idx,:)),2);
+                v_hat(obj.projection_idx(2,:,idx)) = v_sub;
+
         end
     
     end

@@ -1,4 +1,4 @@
-classdef SIMULATION_AWGN
+classdef SIMULATION_AWGN_test
 %% Simulation platform for AWGN channel
 properties
     CODE;
@@ -27,7 +27,7 @@ methods
             num_error_frame = 0;
             num_error_bits = 0;
             num_frame = 0;
-
+            rng(1);
             t_start = tic;
             while (num_error_frame < num_least_error_frame)
                 u = randn(1, K) > 0.5;
@@ -36,7 +36,9 @@ methods
                 tx = 2 * (0.5-v);
                 noise = randn(1, N);
                 rx = sigma .* noise + tx;
-
+                
+                rx = tx;
+                
                 [u_hat, v_hat] = DECODER.Decode(rx, sigma);
                 
                 num_error_frame = num_error_frame+sum(any(v_hat~=v,2));
