@@ -6,7 +6,7 @@ code = CODE_RM;
 code = code.Init(r,m);
 
 %% Generate Decoder
-decoder_select = 'CPA';
+decoder_select = 'OSD';
 switch decoder_select
     case 'Reed'
         decoder = DECODER_RM_AWGN_REED;decoder = decoder.Init(r,m);
@@ -32,7 +32,10 @@ switch decoder_select
     case 'CXA'
         decoder = DECODER_RM_AWGN_CXA; num_iter = 3;alpha = 3;
         decoder = decoder.Init(r,m,puncture_idx, num_iter,alpha);
-        
+    
+    case 'OSD'
+        decoder = DECODER_AWGN_OSD;
+        decoder = decoder.Init(code.G, 2); % osd-2
         
     otherwise
         disp(['Error: No matched decoder!']);
@@ -47,9 +50,10 @@ if chase % if perform chase list decoding
 end
 
 %% Simulation Settings
-num_least_error_frame = 50;
-
 % over awgn channel
-EbNo = 1.5:0.5:3.0;
-sim = SIMULATION_AWGN;
-sim = sim.Simulation(code, decoder, EbNo, num_least_error_frame);
+G = code.G;
+simulationSetting.EbNoArray = 1.5:0.5:3.0;
+simulationSetting.MIN_NUM_ERROR_FRAME = 100;
+simulationSetting.description = 'OSD-2 Algorithm';
+simulationResult = simulation(simulationSetting, G, decoder);
+plot(simulationResult.EbNoArray, log10(simulationResult.ber))

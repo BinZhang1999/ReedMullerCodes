@@ -37,15 +37,15 @@ for i_subspace = 1:num_subspace
    projection_idx(:, p_coset, i_subspace) = subspace_list(i_subspace,:);
    points_uncontained = setdiff(all_points, subspace_list(i_subspace,:));
    
-   subspace_bin = MyDec2Bin(subspace_list(i_subspace,:)',m);
+   subspace_bin = myDec2Bin(subspace_list(i_subspace,:)',m);
    % caculate the coset
    for point = points_uncontained
       if any(ismember(projection_idx(:,:,i_subspace), point),'all')
           continue;
       end
-      point_bin = MyDec2Bin(point, m);
+      point_bin = myDec2Bin(point, m);
       coset_bin = (subspace_bin~=point_bin);
-      coset = MyBin2Dec(coset_bin, m);
+      coset = myBin2Dec(coset_bin, m);
       p_coset = p_coset+1;
       projection_idx(:,p_coset,i_subspace) = coset;
    end
