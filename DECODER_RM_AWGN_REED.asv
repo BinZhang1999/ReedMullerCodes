@@ -68,6 +68,7 @@ methods
            iOrderCheckSumIndex = obj.checkSumIndexCell{1,iOrder};
            llrTemp = llrForNextOrder(iOrderCheckSumIndex);
            
+           
            llrCheckSum = 2*atanh(prod(tanh(llrTemp/2),1));
            llrInfoBit = sum(llrCheckSum,2);
            uEsti(pointK+1:pointK+iK) = llrInfoBit<0;
