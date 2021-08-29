@@ -59,13 +59,17 @@ for iEbNo = 1:lengthEbNoArray
             tSpan = toc(tStart);
             disp('############################################');
             disp(simulationSetting.description);
-            disp(['Running time duration at this EbNo: ' num2str(tSpan) 's']);
-            disp(['Error frame number at this EbNo: ' num2str(nErrorFrame)]);
-            disp(['Eb/No = ' num2str(EbNoArray(iEbNo)) ' dB']);
-            disp(['N = ' num2str(n) ' K = ' num2str(k)]);
-            disp('EbNo    wer    ber');
+            disp(['% Running time duration at this EbNo: ' num2str(tSpan) 's']);
+            disp(['% Error frame number at this EbNo: ' num2str(nErrorFrame)]);
+            disp(['% Eb/No = ' num2str(EbNoArray(iEbNo)) ' dB']);
+            disp(['% N = ' num2str(n) ' K = ' num2str(k)]);
+            disp('% EbNo    wer    ber');
+            disp('data = [...');
             disp(num2str([simulationResult.EbNoArray' simulationResult.wer' ...
                 simulationResult.ber']));
+            disp('];');
+            disp('EbNo = data(:,1); wer = data(:,2); ber = data(:,3);');
+            disp('semilogy(EbNo, wer, ''-o'', ''Linewidth'', 1.5); hold on;');
             disp('############################################');
         end
     end % end of the simulation at this frame
