@@ -58,6 +58,7 @@ for iEbNo = 1:lengthEbNoArray
         if isPrinting
             tSpan = toc(tStart);
             disp('############################################');
+            disp([simulationSetting.displayName]);
             disp(simulationSetting.description);
             disp(['% Running time duration at this EbNo: ' num2str(tSpan) 's']);
             disp(['% Error frame number at this EbNo: ' num2str(nErrorFrame)]);
@@ -69,7 +70,7 @@ for iEbNo = 1:lengthEbNoArray
                 simulationResult.ber']));
             disp('];');
             disp('EbNo = data(:,1); wer = data(:,2); ber = data(:,3);');
-            disp('semilogy(EbNo, wer, ''-o'', ''Linewidth'', 1.5); hold on;');
+            disp('semilogy(EbNo, wer, ''-o'', ''Linewidth'', 1.5,''DisplayName'',displayName); hold on;');
             disp('############################################');
         end
     end % end of the simulation at this frame
