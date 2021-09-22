@@ -14,7 +14,7 @@ switch decoder_select
     case 'Hadamard' % only for RM(1,m) codes
         decoder = DECODER_RM_AWGN_HADAMARD;decoder = decoder.Init(m);
         
-    case 'eHammingMAP' % only for RM(m-2,m) cides
+    case 'eHammingMAP' % only for RM(m-2,m) codes
         decoder = DECODER_EHAMMING_AWGN_MAP;decoder = decoder.Init(m);
         
     case 'CPA'
@@ -56,5 +56,5 @@ simulationSetting.EbNoArray = 1.5:0.5:3.0;
 simulationSetting.MIN_NUM_ERROR_FRAME = 100;
 simulationSetting.displayName = '% OSD-2';
 simulationSetting.description = '% OSD-2 Algorithm';
-simulationResult = simulation(simulationSetting, G, decoder);
-plot(simulationResult.EbNoArray, log10(simulationResult.ber))
+simulationResult = parSimulationAWGN(simulationSetting, G, decoder);
+
