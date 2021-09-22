@@ -35,7 +35,7 @@ switch decoder_select
     
     case 'OSD'
         decoder = DECODER_AWGN_OSD;
-        decoder = decoder.Init(code.G, 2, 8); % osd-2
+        decoder = decoder.Init(code.G, 2); % osd-2
         
     otherwise
         disp(['Error: No matched decoder!']);
@@ -54,7 +54,6 @@ end
 G = code.G;
 simulationSetting.EbNoArray = 1.5:0.5:3.0;
 simulationSetting.MIN_NUM_ERROR_FRAME = 100;
-simulationSetting.displayName = '% OSD-2';
-simulationSetting.description = '% OSD-2 Algorithm';
+simulationSetting.description = 'OSD-2 Algorithm';
 simulationResult = simulation(simulationSetting, G, decoder);
 plot(simulationResult.EbNoArray, log10(simulationResult.ber))
