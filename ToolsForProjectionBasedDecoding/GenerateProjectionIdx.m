@@ -41,7 +41,7 @@ for i_subspace = 1:num_subspace
    % caculate the coset
    for point = points_uncontained
       if any(ismember(projection_idx(:,:,i_subspace), point),'all')
-          continue;
+          continue; % the point contained in one coset
       end
       point_bin = myDec2Bin(point, m);
       coset_bin = (subspace_bin~=point_bin);

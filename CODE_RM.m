@@ -42,7 +42,7 @@ methods
         obj.G = obj.Gm(~obj.frozen_bits,:);
     end
     
-    function v = Encode(obj, u)
+    function v = encode(obj, u)
         v = mod(u * obj.G, 2);
     end
     

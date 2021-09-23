@@ -1,12 +1,12 @@
 %% Code parameters
-r=2;m=7;
+r=1;m=5;
 
 %% Generate Code
 code = CODE_RM;
 code = code.Init(r,m);
 
 %% Generate Decoder
-decoder_select = 'OSD';
+decoder_select = 'Hadamard';
 switch decoder_select
     case 'Reed'
         decoder = DECODER_RM_AWGN_REED;decoder = decoder.Init(r,m);
