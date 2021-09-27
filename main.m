@@ -1,5 +1,9 @@
 %% Code parameters
+<<<<<<< HEAD
 r=1;m=5;
+=======
+r=2;m=5;
+>>>>>>> f37cf391be61dee30c6c0365c6b74962424b6a96
 
 %% Generate Code
 code = CODE_RM;
@@ -14,7 +18,7 @@ switch decoder_select
     case 'Hadamard' % only for RM(1,m) codes
         decoder = DECODER_RM_AWGN_HADAMARD;decoder = decoder.Init(m);
         
-    case 'eHammingMAP' % only for RM(m-2,m) cides
+    case 'eHammingMAP' % only for RM(m-2,m) codes
         decoder = DECODER_EHAMMING_AWGN_MAP;decoder = decoder.Init(m);
         
     case 'CPA'
@@ -35,7 +39,7 @@ switch decoder_select
     
     case 'OSD'
         decoder = DECODER_AWGN_OSD;
-        decoder = decoder.Init(code.G, 2); % osd-2
+        decoder = decoder.Init(code.G, 2, 8); % osd-2
         
     otherwise
         disp(['Error: No matched decoder!']);
@@ -54,6 +58,7 @@ end
 G = code.G;
 simulationSetting.EbNoArray = 1.5:0.5:3.0;
 simulationSetting.MIN_NUM_ERROR_FRAME = 100;
-simulationSetting.description = 'OSD-2 Algorithm';
-simulationResult = simulation(simulationSetting, G, decoder);
-plot(simulationResult.EbNoArray, log10(simulationResult.ber))
+simulationSetting.displayName = '% OSD-2';
+simulationSetting.description = '% OSD-2 Algorithm';
+simulationResult = parSimulationAWGN(simulationSetting, G, decoder);
+
