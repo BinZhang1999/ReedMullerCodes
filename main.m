@@ -1,9 +1,6 @@
 %% Code parameters
-<<<<<<< HEAD
-r=1;m=5;
-=======
 r=2;m=5;
->>>>>>> f37cf391be61dee30c6c0365c6b74962424b6a96
+
 
 %% Generate Code
 code = CODE_RM;
