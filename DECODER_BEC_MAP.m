@@ -20,16 +20,16 @@ classdef DECODER_BEC_MAP
                return;
            end
            He = obj.H(:, isErasure);
-           if rank(gf(He')) < nErasure % cannot reconstruct
-               return;
-           end
            Hne = obj.H(:,~isErasure);
            rne = r(~isErasure);
            b = mod(Hne * rne',2);
            
            % we only need num_erasure rows
            % H_e * r_e' = H_ne * r_ne'
-           [A,x] = MySolveEquation(He, b);
+           [x, ~, nFree] = mySolveEquation(He, b);
+           if nFree > 0
+               return;
+           end
            bHat = mod(He*x(1:nErasure),2);
            if any(bHat(1:nErasure)~=b(1:nErasure))
                1;

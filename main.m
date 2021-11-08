@@ -1,5 +1,5 @@
 %% Code parameters
-r=2;m=5;
+r=2;m=7;
 
 
 %% Generate Code
