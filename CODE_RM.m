@@ -3,8 +3,8 @@ classdef CODE_RM
 % eg: Generate RM(3,7):
 % code_rm = CODE_RM;
 % rm37 = code_rm.Init(3,7);
-% u = (rand(1,rm37.K)>0);
-% v = rm37.Encode(u);
+% u = (randn(1,rm37.K)>0);
+% v = rm37.encode(u);
 properties
    r; % r order
    m; % m variable
