@@ -6,7 +6,8 @@ end
    
 methods
         function obj = Init(obj, m)
-            obj.hadamardSetting = HadamardSetting(m);
+            % obj.hadamardSetting = HadamardSetting(m);
+            obj.hadamardSetting =  InitFHTD(m);
         end
         
         function [uHat, vHat] = decode(obj, y, sigma)
@@ -14,7 +15,8 @@ methods
          % rx: num_rx X N matrix
          % sigma: sigma^2 is the noise power
          %%
-            [uHat, vHat] = HadamardDecode(obj.hadamardSetting, y);
+            %[uHat, vHat] = HadamardDecode(obj.hadamardSetting, y);
+            [uHat, vHat] = FHTD(obj.hadamardSetting, y);
         end
     end
     

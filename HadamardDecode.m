@@ -6,8 +6,9 @@ N = hadamardSetting.N;
 G = hadamardSetting.G;
 
 [nVec, ~] = size(y);
-corr = y * hadamardMatrix;
-[~, idx] = max(abs(corr),[],2); 
+corr = hadamardMatrix * y';
+[~, idx] = max(abs(corr),[],1); 
+
 % select the most likely vector
 uHat = zeros(nVec, m+1);
 uHat(:, m:-1:1) = myDec2Bin(idx-1, m);

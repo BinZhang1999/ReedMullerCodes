@@ -1,6 +1,5 @@
 %% Code parameters
-r=2;m=7;
-
+r=1;m=7;
 
 %% Generate Code
 code = CODE_RM;
@@ -53,9 +52,9 @@ end
 %% Simulation Settings
 % over awgn channel
 G = code.G;
-simulationSetting.EbNoArray = 1.5:0.5:3.0;
+simulationSetting.EbNoArray = 1.5:0.5:4.0;
 simulationSetting.MIN_NUM_ERROR_FRAME = 100;
 simulationSetting.displayName = '% OSD-2';
 simulationSetting.description = '% OSD-2 Algorithm';
-simulationResult = parSimulationAWGN(simulationSetting, G, decoder);
+simulationResult = simulationAWGN(simulationSetting, G, decoder);
 
