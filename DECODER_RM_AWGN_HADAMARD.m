@@ -5,7 +5,7 @@ properties
 end
    
 methods
-        function obj = Init(obj, m)
+        function obj = init(obj, m)
             obj.hadamardSetting = HadamardSetting(m);
         end
         

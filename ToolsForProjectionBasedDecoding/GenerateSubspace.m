@@ -44,14 +44,14 @@ for i_subspace_last = 1:num_subspace_last
 % for i_subspace_last = num_subspace_last:-1:1
     subspace_last = subspace_list_last(i_subspace_last,:);
     points_uncontained = setdiff(all_points, subspace_last);
-    subspace_last_bin = MyDec2Bin(subspace_last', m);
+    subspace_last_bin = myDec2Bin(subspace_last', m);
     
     for point = points_uncontained
         % add a new point to the (k-1)-dim subspace and generate a k-dim
         % subspace
-        point_bin = MyDec2Bin(point, m);
+        point_bin = myDec2Bin(point, m);
         points_add_bin = (subspace_last_bin ~= point_bin);
-        points_add = MyBin2Dec(points_add_bin, m);    
+        points_add = myBin2Dec(points_add_bin, m);    
         subspace = sort([subspace_last, points_add'],'ascend');
         
         % if the tmp_subspace is already in the subspace list
